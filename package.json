@@ -1,0 +1,20 @@
+{
+  "name": "text-to-speech-web-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Text-to-Speech Web Application (Level 3 Advanced)",
+  "scripts": {
+    "dev": "concurrently -k -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"blue.bold,green.bold\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "build:client": "npm run build --prefix client",
+    "start": "npm start --prefix server",
+    "start:server": "npm start --prefix server",
+    "test": "npm test --prefix server",
+    "install:all": "npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

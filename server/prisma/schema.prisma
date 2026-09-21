@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum SpeechStatus {
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  password      String?
+  name          String
+  role          Role           @default(USER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  speeches      Speech[]
+  favorites     Favorite[]
+  usage         Usage?
+
+  @@index([email])
+  @@index([role])
+}
+
+model Speech {
+  id             String       @id @default(uuid())
+  userId         String
+  originalText   String       @db.Text
+  processedText  String?      @db.Text
+  language       String
+  voice          String
+  speed          Float        @default(1.0)
+  pitch          Float        @default(0.0)
+  volume         Int          @default(100)
+  voiceStyle     String?
+  audioUrl       String
+  audioKey       String
+  characterCount Int
+  status         SpeechStatus @default(SUCCESS)
+  errorMessage   String?
+  durationMs     Int?
+  createdAt      DateTime     @default(now())
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorites Favorite[]
+
+  @@index([userId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([status])
+  @@index([language])
+  @@index([voice])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  speechId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  speech Speech @relation(fields: [speechId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, speechId])
+  @@index([userId])
+}
+
+model Usage {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  charactersUsed  Int      @default(0)
+  generationCount Int      @default(0)
+  periodStart     DateTime @default(now())
+  periodEnd       DateTime
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

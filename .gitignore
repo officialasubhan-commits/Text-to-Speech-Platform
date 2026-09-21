@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Build output
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Prisma
+server/prisma/migrations/
+
+# Uploads
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Google Cloud credentials
+google-credentials.json
+server/google-credentials.json
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!vite.config.json
+
+# Test coverage
+coverage/
