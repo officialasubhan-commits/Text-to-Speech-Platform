@@ -494,14 +494,6 @@ export default function HeroSection({ onAddHistory, settings }) {
 
           <div className="input-meta-right">
             <span className="shortcut-hint-text">Ctrl+Enter to speak</span>
-            {quota && (
-              <span
-                className={`meta-quota-pill ${quota.percentUsed > 80 ? 'near-limit' : ''}`}
-                title="Monthly character quota usage"
-              >
-                📊 {quota.charactersUsed?.toLocaleString()} / {quota.characterLimit?.toLocaleString()} chars ({quota.percentUsed}%)
-              </span>
-            )}
             {wordCount > 0 && (
               <>
                 <span className="meta-stat-pill">⏱️ ~{estimatedSeconds}s audio</span>
